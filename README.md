@@ -1,3 +1,7 @@
+#### Base LLM vs. Instructed Tuned LLM
+
+![img_1.png](img_1.png)
+
 #### Notes on using the OpenAI API outside of this classroom
 
 To install the OpenAI Python library:
