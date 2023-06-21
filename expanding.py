@@ -104,11 +104,11 @@ def run():
 
 # We're going
 # to use another one of the model's input parameters called
-# "temperature" and this kind of allows you to vary
-# the kind of degree of exploration and variety
-# in the kind of model's responses. So you
-# can kind of think of temperature as the
-# degree of exploration or kind of randomness of
+# "temperature" and this allows you to vary
+# the degree of exploration and variety
+# in the  model's responses. So you
+# can think of temperature as the
+# degree of exploration or randomness of
 # the model.
 
 if __name__ == '__main__':
