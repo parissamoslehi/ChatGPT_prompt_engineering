@@ -53,9 +53,9 @@ def summarize_multiple_product_reviews(reviews):
 
 
 def run(prod_review, reviews):
-    # summarize_with_word_limit(prod_review)
-    # summarize_with_a_focus_on_price_and_value(prod_review)
-    # extract_info(prod_review)
+    summarize_with_word_limit(prod_review)
+    summarize_with_a_focus_on_price_and_value(prod_review)
+    extract_info(prod_review)
     summarize_multiple_product_reviews(reviews)
 
 
@@ -176,4 +176,3 @@ if __name__ == '__main__':
 
     run(prod_review, reviews)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/

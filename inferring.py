@@ -61,7 +61,7 @@ def identify_anger(review):
     The review is delimited with triple backticks. \
     Give your answer as either yes or no.
 
-    Review text: '''{lamp_review}'''
+    Review text: '''{review}'''
     """
     response = get_completion(prompt)
     print(response)
@@ -123,7 +123,7 @@ def infer_topics(input_text):
     print(response.split(sep=','))
 
 
-def make_a_news_alert_for_certain_topics(input_list):
+def make_a_news_alert_for_certain_topics(input_list, story):
     prompt = f"""
     Determine whether each item in the following list of \
     topics is a topic in the text below, which
@@ -131,7 +131,7 @@ def make_a_news_alert_for_certain_topics(input_list):
 
     Give your answer as list with 0 or 1 for each topic.\
 
-    List of topics: {", ".join(topic_list)}
+    List of topics: {", ".join(input_list)}
 
     Text sample: '''{story}'''
     """
@@ -148,7 +148,7 @@ def run(lamp_review, story, topic_list):
     extract_product_and_company_name_from_customer_reviews(lamp_review)
     doing_multiple_tasks_at_once(lamp_review)
     infer_topics(story)
-    make_a_news_alert_for_certain_topics(topic_list)
+    make_a_news_alert_for_certain_topics(topic_list, story)
 
 
 if __name__ == '__main__':
