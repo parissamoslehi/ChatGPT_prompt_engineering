@@ -36,52 +36,52 @@ def run():
     response = get_completion_from_messages(messages, temperature=1)
     print(response)
 
-    messages = [
-        {'role': 'system', 'content': 'You are friendly chatbot.'},
-        {'role': 'user', 'content': 'Hi, my name is Isa'}]
-    response = get_completion_from_messages(messages, temperature=1)
-    print(response)
+#     messages = [
+#         {'role': 'system', 'content': 'You are friendly chatbot.'},
+#         {'role': 'user', 'content': 'Hi, my name is Isa'}]
+#     response = get_completion_from_messages(messages, temperature=1)
+#     print(response)
 
-    messages = [
-        {'role': 'system', 'content': 'You are friendly chatbot.'},
-        {'role': 'user', 'content': 'Yes,  can you remind me, What is my name?'}]
-    response = get_completion_from_messages(messages, temperature=1)
-    print(response)
+#     messages = [
+#         {'role': 'system', 'content': 'You are friendly chatbot.'},
+#         {'role': 'user', 'content': 'Yes,  can you remind me, What is my name?'}]
+#     response = get_completion_from_messages(messages, temperature=1)
+#     print(response)
 
-    messages = [
-        {'role': 'system', 'content': 'You are friendly chatbot.'},
-        {'role': 'user', 'content': 'Hi, my name is Isa'},
-        {'role': 'assistant', 'content': "Hi Isa! It's nice to meet you. \
-    Is there anything I can help you with today?"},
-        {'role': 'user', 'content': 'Yes, you can remind me, What is my name?'}]
-    response = get_completion_from_messages(messages, temperature=1)
-    print(response)
+#     messages = [
+#         {'role': 'system', 'content': 'You are friendly chatbot.'},
+#         {'role': 'user', 'content': 'Hi, my name is Isa'},
+#         {'role': 'assistant', 'content': "Hi Isa! It's nice to meet you. \
+#     Is there anything I can help you with today?"},
+#         {'role': 'user', 'content': 'Yes, you can remind me, What is my name?'}]
+#     response = get_completion_from_messages(messages, temperature=1)
+#     print(response)
 
-    # give the context
-    messages = [
-        {'role': 'system', 'content': 'You are friendly chatbot.'},
-        {'role': 'user', 'content': 'Hi, my name is Isa'},
-        {'role': 'assistant', 'content': "Hi Isa! It's nice to meet you. \
-    Is there anything I can help you with today?"},
-        {'role': 'user', 'content': 'Yes, you can remind me, What is my name?'}]
-    response = get_completion_from_messages(messages, temperature=1)
-    print(response)
+#     # give the context
+#     messages = [
+#         {'role': 'system', 'content': 'You are friendly chatbot.'},
+#         {'role': 'user', 'content': 'Hi, my name is Isa'},
+#         {'role': 'assistant', 'content': "Hi Isa! It's nice to meet you. \
+#     Is there anything I can help you with today?"},
+#         {'role': 'user', 'content': 'Yes, you can remind me, What is my name?'}]
+#     response = get_completion_from_messages(messages, temperature=1)
+#     print(response)
 
 
-#the system message helps to
-# set the behavior and persona of
-# the assistant and it acts as
-# a high-level instruction for the conversation. So you can think of
-# it as whispering in the assistant's ear and guiding its responses
-# without the user being aware of the system
-# message. So as the user, if you've ever used
-# ChatGPT, you probably don't know what's in ChatGPT's system message.
-# The benefit of the system message is that it provides you, the
-# developer, with a way to frame the conversation without
-# making the request itself part of the conversation. So you can
-# guide the assistant and
-# whisper in its ear and guide its responses without
-# making the user aware.
+# #the system message helps to
+# # set the behavior and persona of
+# # the assistant and it acts as
+# # a high-level instruction for the conversation. So you can think of
+# # it as whispering in the assistant's ear and guiding its responses
+# # without the user being aware of the system
+# # message. So as the user, if you've ever used
+# # ChatGPT, you probably don't know what's in ChatGPT's system message.
+# # The benefit of the system message is that it provides you, the
+# # developer, with a way to frame the conversation without
+# # making the request itself part of the conversation. So you can
+# # guide the assistant and
+# # whisper in its ear and guide its responses without
+# # making the user aware.
 
 if __name__ == '__main__':
     run()
