@@ -49,14 +49,6 @@ button_conversation = pn.widgets.Button(name="Chat!")
 panels = []  # collect display
 
 interactive_conversation = pn.bind(collect_messages, button_conversation)
-# dashboard = pn.Column(
-#     pn.panel(interactive_conversation, loading_indicator=True, height=300),
-#     pn.Row(inp, button_conversation),
-#     scroll=True,
-#     height=950,
-#     width=950 
-# )
-
 dashboard = pn.Column(
                 pn.Row(
                     pn.panel(interactive_conversation, loading_indicator=True, height=300),
