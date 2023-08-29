@@ -50,13 +50,17 @@ panels = []  # collect display
 
 interactive_conversation = pn.bind(collect_messages, button_conversation)
 dashboard = pn.Column(
-                pn.Row(
-                    pn.panel(interactive_conversation, loading_indicator=True, height=300),
-                    scroll=True,
-                    height=850,
-                    width=850 
-                    ),
-                pn.Row(inp, button_conversation)
+                pn.Column("./logo_cgi_color_jpg.jpg"),
+                pn.Column(
+                    pn.Row(
+                        pn.panel(interactive_conversation, loading_indicator=True, height=300),
+                        scroll=True,
+                        height=750,
+                        width=850 
+                        ),
+                    pn.Row(inp, button_conversation)
+                ),
+                width=1000
 )
 dashboard.servable()
 
