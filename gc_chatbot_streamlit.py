@@ -2,6 +2,9 @@ import openai
 import streamlit as st
 from streamlit_chat import message
 import os
+from dotenv import load_dotenv, find_dotenv
+import speech_recognition as sr
+
 
 # Setting page title and header
 # st.set_page_config(page_title="ESDC - EI BOT ", page_icon=":robot_face:")
@@ -9,6 +12,7 @@ st.set_page_config(page_title="ESDC - EI BOT ", page_icon='./CGI_compressed_logo
 st.markdown("<h1 style='text-align: center;'>ESDC-EI Chatbot</h1>", unsafe_allow_html=True)
 
 # Set org ID and API key
+_ = load_dotenv(find_dotenv()) # read local .env file
 openai.organization = "org-BDtFUFeLKZgRZ9yHCM9MQPRV"
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
@@ -84,53 +88,68 @@ response_container = st.container()
 # container for text box
 container = st.container()
 
-with container:
-    st.session_state['messages'].append(
-        {'role': 'assistant', 'content': 
-        """This is an Assistant of Goverment of Canada."""
-        })
-    st.session_state['messages'].append(
-        {'role': 'system', 'content': """
-        Here is a set of links provided in curly brackets that contain information about employment insurance benefits of the government of Canada.; \
-        url links: {https://www.canada.ca/en/employment-social-development/programs/ei/ei-list/reports/digest.html};
+r = sr.Recognizer()
+with sr.Microphone() as source:
+    r.adjust_for_ambient_noise(source=source, duration=5)
 
-        The link provided above contains 25 url links as chapters and each chapter has subsections.\
-        These 25 chapters covers different topics related to employment insurance benefits of the government of Canada.\
+    with container:
+        st.session_state['messages'].append(
+            {'role': 'assistant', 'content': 
+            """This is an Assistant of Goverment of Canada."""
+            })
+        st.session_state['messages'].append(
+            {'role': 'system', 'content': """
+            Here is a set of links provided in curly brackets that contain information about employment insurance benefits of the government of Canada.; \
+            url links: {https://www.canada.ca/en/employment-social-development/programs/ei/ei-list/reports/digest.html};
 
-        You are a professional chatbot. Answer questions based on the content of the links that I provided above. \
-        Please provide reference and ur link of the subsection that you used to answer the question from the provided links. \
-        Start your conversation with greetings. But first before I start asking my questions, I would like you to ask me some questions to narrow down my case and understand my situation to better answer my questions.\
-        When asking me the questions, please ask one question at a time. Please keep in mind, when you ask me questions to understand my situation you should keep it relevant to the contents from the given link and give options for the correct answer type in 1-2 words bullet points.\
-        The same applies to the answers you provide. At any step you think I'm not eligible to benefit from the servises, let me know that I'm not eligible with mentioning the reason and the URL link ending in ".html" to the page noting the reason. \
-        If you finally think I'm eligible help me to apply for the relevant benefit by telling me which type of benefit I'm eligible to apply for together with documetns I need to collect.\
-        """}
-    )
+            The link provided above contains 25 url links as chapters and each chapter has subsections.\
+            These 25 chapters covers different topics related to employment insurance benefits of the government of Canada.\
 
-    with st.form(key='my_form', clear_on_submit=True):
-        user_input = st.text_area("You:", key='input', height=100)
-        submit_button = st.form_submit_button(label='Send')
+            You are a professional chatbot. Answer questions based on the content of the links that I provided above. \
+            Please provide reference and ur link of the subsection that you used to answer the question from the provided links. \
+            Start your conversation with greetings. But first before I start asking my questions, I would like you to ask me some questions to narrow down my case and understand my situation to better answer my questions.\
+            When asking me the questions, please ask one question at a time. Please keep in mind, when you ask me questions to understand my situation you should keep it relevant to the contents from the given link and give options for the correct answer type in 1-2 words bullet points.\
+            The same applies to the answers you provide. At any step you think I'm not eligible to benefit from the servises, let me know that I'm not eligible with mentioning the reason and the URL link ending in ".html" to the page noting the reason. \
+            If you finally think I'm eligible help me to apply for the relevant benefit by telling me which type of benefit I'm eligible to apply for together with documetns I need to collect.\
+            """}
+        )
 
-    if submit_button and user_input:
-        output, total_tokens, prompt_tokens, completion_tokens = generate_response(user_input)
-        st.session_state['past'].append(user_input)
-        st.session_state['generated'].append(output)
-        st.session_state['model_name'].append(model_name)
-        st.session_state['total_tokens'].append(total_tokens)
+        with st.form(key='my_form', clear_on_submit=True):
+            user_input = st.text_area("You:", key='input', height=100)
+            submit_button = st.form_submit_button(label='Send')
 
-        # from https://openai.com/pricing#language-models
-        if model_name == "GPT-3.5":
-            cost = total_tokens * 0.002 / 1000
-        else:
-            cost = (prompt_tokens * 0.03 + completion_tokens * 0.06) / 1000
+        if submit_button and not user_input:
+            # with st.form(key='new_form', clear_on_submit=True):
+            # user_input = st.text_area("You:", value='Got nothing to say!', key='input-2', height=100)
+            print('listening ...')
+            myAudio = r.listen(source=source)
+            print('processing the record ...')
+            myText = r.recognize_google(myAudio)
+            print('processing finished.')
+            myText = myText.lower()
+            user_input = myText
 
-        st.session_state['cost'].append(cost)
-        st.session_state['total_cost'] += cost
+        if submit_button and user_input:
+            output, total_tokens, prompt_tokens, completion_tokens = generate_response(user_input)
+            st.session_state['past'].append(user_input)
+            st.session_state['generated'].append(output)
+            st.session_state['model_name'].append(model_name)
+            st.session_state['total_tokens'].append(total_tokens)
 
-if st.session_state['generated']:
-    with response_container:
-        for i in range(len(st.session_state['generated'])):
-            message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', logo=f'{user_avatar}')
-            message(st.session_state["generated"][i], key=str(i), logo=f'{bot_avatar}')
-            st.write(
-                f"Model used: {st.session_state['model_name'][i]}; Number of tokens: {st.session_state['total_tokens'][i]}; Cost: ${st.session_state['cost'][i]:.5f}")
-            counter_placeholder.write(f"Total cost of this conversation: ${st.session_state['total_cost']:.5f}")
+            # from https://openai.com/pricing#language-models
+            if model_name == "GPT-3.5":
+                cost = total_tokens * 0.002 / 1000
+            else:
+                cost = (prompt_tokens * 0.03 + completion_tokens * 0.06) / 1000
+
+            st.session_state['cost'].append(cost)
+            st.session_state['total_cost'] += cost
+
+    if st.session_state['generated']:
+        with response_container:
+            for i in range(len(st.session_state['generated'])):
+                message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', logo=f'{user_avatar}')
+                message(st.session_state["generated"][i], key=str(i), logo=f'{bot_avatar}')
+                st.write(
+                    f"Model used: {st.session_state['model_name'][i]}; Number of tokens: {st.session_state['total_tokens'][i]}; Cost: ${st.session_state['cost'][i]:.5f}")
+                counter_placeholder.write(f"Total cost of this conversation: ${st.session_state['total_cost']:.5f}")
