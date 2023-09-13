@@ -64,9 +64,9 @@ dashboard = pn.Column(
                 pn.Column(
                     pn.Row(
                         pn.panel(interactive_conversation, loading_indicator=True, height=300),
-                        scroll=True,
                         height=750,
-                        width=850 
+                        width=850,
+                        scroll=True, 
                         ),
                     pn.Row(inp, button_conversation)
                 ),
