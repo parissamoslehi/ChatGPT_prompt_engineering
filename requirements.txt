@@ -44,11 +44,13 @@ pandas==2.1.0
 Pillow==9.5.0
 protobuf==4.24.2
 pyarrow==13.0.0
+PyAudio==0.2.13
 pydantic==2.3.0
 pydantic_core==2.6.3
 pydeck==0.8.0
 Pygments==2.16.1
 Pympler==1.0.1
+pypdf==3.16.0
 python-dateutil==2.8.2
 python-magic==0.4.27
 python-magic-bin==0.4.14
@@ -63,6 +65,7 @@ rpds-py==0.10.2
 six==1.16.0
 smmap==5.0.0
 soupsieve==2.5
+SpeechRecognition==3.10.0
 SQLAlchemy==2.0.20
 streamlit==1.26.0
 streamlit-chat==0.1.1
